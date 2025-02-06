@@ -1,12 +1,18 @@
-import random
-list = []
-string = "Hello, world!"
+s = "AbcBA"
 
-for i in string:
-    list.append(i)
+def palindrome(s):
+    uppercase_letters = []
+    for ch in s:
+        if ch.isupper():
+            uppercase_letters.append(ch)
 
-random.shuffle(list)
+    reversed_letters = []
+    for ch in reversed(uppercase_letters):
+        reversed_letters.append(ch)
 
-string = ''.join(list)
+    if uppercase_letters == reversed_letters:
+        return "Это палиндром"
+    else:
+        return "Это не палиндром"
 
-print(string)
+print(palindrome(s))
