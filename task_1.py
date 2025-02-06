@@ -8,3 +8,16 @@ def funk1(n):
     return count
 
 print("Количество делителей, не делящихся на 3:", funk1(n))
+
+def funk2(n):
+    digits = []
+    for d in str(n):
+        if int(d) % 2 == 1:
+            digits.append(int(d))
+
+    if digits:
+        return min(digits)
+    else:
+        return None
+
+print("Минимальная нечетная цифра:", funk2(n))
