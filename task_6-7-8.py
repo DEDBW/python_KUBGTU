@@ -10,3 +10,31 @@ def solve_task_6():
         else:
             current_count = 0
     print("Наибольшее количество подряд идущих символов кириллицы:", max_count)
+
+
+def solve_task_7():
+    s = input("Введите строку для задачи 7: ")
+    min_number = None
+    num_str = ""
+
+    for c in s:
+        if c.isdigit():
+            num_str += c
+        else:
+            if num_str:
+                num = int(num_str)
+                if num > 0:  # натуральное число > 0
+                    if min_number is None or num < min_number:
+                        min_number = num
+                num_str = ""
+
+    if num_str:
+        num = int(num_str)
+        if num > 0:
+            if min_number is None or num < min_number:
+                min_number = num
+
+    if min_number is not None:
+        print("Минимальное натуральное число в строке:", min_number)
+    else:
+        print("В строке не найдено натуральных чисел.")
