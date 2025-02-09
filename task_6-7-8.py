@@ -23,7 +23,7 @@ def solve_task_7():
         else:
             if num_str:
                 num = int(num_str)
-                if num > 0:  # натуральное число > 0
+                if num > 0:
                     if min_number is None or num < min_number:
                         min_number = num
                 num_str = ""
@@ -38,3 +38,18 @@ def solve_task_7():
         print("Минимальное натуральное число в строке:", min_number)
     else:
         print("В строке не найдено натуральных чисел.")
+
+def solve_task_8():
+    s = input("Введите строку для задачи 8: ")
+    max_count = 0
+    current_count = 0
+    for c in s:
+        if c.isdigit():
+            current_count += 1
+            if current_count > max_count:
+                max_count = current_count
+        else:
+            current_count = 0
+    print("Наибольшее количество подряд идущих цифр:", max_count)
+
+solve_task_8()
