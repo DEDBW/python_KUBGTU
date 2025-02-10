@@ -1,6 +1,6 @@
 def find_unique_element(arr):
     if arr[0] == arr[1]:
-        different_element = arr[0] # предполагаем, что большинство элементов arr[0]
+        different_element = arr[0]
         for element in arr:
             if element != different_element:
                 return element
