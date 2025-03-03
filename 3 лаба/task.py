@@ -1,9 +1,13 @@
 class Shape:
     def __init__(self, identifier):
-        self.identifier = identifier
+        self._identifier = identifier  # Защищенный атрибут
 
     def area(self):
         raise NotImplementedError("Подклассы должны реализовывать метод area")
+
+    @property
+    def identifier(self):
+        return self._identifier
 
 
 class Rectangle(Shape):
@@ -11,16 +15,32 @@ class Rectangle(Shape):
         if width <= 0 or height <= 0:
             raise ValueError("Ширина и высота должны быть положительными числами")
         super().__init__(identifier)
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+        self.__x = x
+        self.__y = y
+        self.__width = width
+        self.__height = height
+
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    @property
+    def width(self):
+        return self.__width
+
+    @property
+    def height(self):
+        return self.__height
 
     def area(self):
-        return self.width * self.height
+        return self.__width * self.__height
 
 
-class Quad(Rectangle):  # Квадрат — это частный случай прямоугольника
+class Quad(Rectangle):
     def __init__(self, identifier, x, y, side):
         if side <= 0:
             raise ValueError("Сторона квадрата должна быть положительным числом")
@@ -28,7 +48,6 @@ class Quad(Rectangle):  # Квадрат — это частный случай 
 
 
 def compare(t1, t2):
-    """Сравнивает объекты по площади"""
     area1 = t1.area()
     area2 = t2.area()
     if area1 > area2:
@@ -46,9 +65,8 @@ def is_intersect(t1, t2):
     return "Объекты пересекаются"
 
 
-# Пример использования
 rect = Rectangle("Прямоугольник", 0, 0, 4, 6)
 quad = Quad("Квадрат", 2, 2, 3)
 
-print(compare(rect, quad))  # Сравнение
-print(is_intersect(rect, quad))  # Проверка пересечения
+print(compare(rect, quad))
+print(is_intersect(rect, quad))
