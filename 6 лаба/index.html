@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>Фитнес-клуб - Просмотр данных</title>
+</head>
+<body>
+    <h1>Фитнес-клуб - Просмотр данных</h1>
+    <p>Выберите таблицу для просмотра:</p>
+    <form method="get" action="/cgi-bin/fitness_cgi.py">
+        <select name="table">
+            <option value="Clients">Клиенты</option>
+            <option value="Trainers">Тренеры</option>
+            <option value="Services">Услуги</option>
+        </select>
+        <input type="submit" value="Показать таблицу">
+    </form>
+    <br>
+    <button onclick="location.href='add_client_form.html'" type="button">Добавить клиента</button>
+</body>
+</html>

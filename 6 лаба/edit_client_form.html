@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>Редактировать клиента</title>
+</head>
+<body>
+    <h1>Редактировать данные клиента</h1>
+    <form method="post" action="edit_client.py">
+        <input type="hidden" id="client_id" name="id" value="">
+
+        <label for="first_name">Имя:</label><br>
+        <input type="text" id="first_name" name="first_name" required><br><br>
+
+        <label for="last_name">Фамилия:</label><br>
+        <input type="text" id="last_name" name="last_name" required><br><br>
+
+        <label for="phone_number">Номер телефона:</label><br>
+        <input type="text" id="phone_number" name="phone_number"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <label for="membership_type">Тип абонемента:</label><br>
+        <input type="text" id="membership_type" name="membership_type"><br><br>
+
+        <label for="registration_date">Дата регистрации (YYYY-MM-DD):</label><br>
+        <input type="date" id="registration_date" name="registration_date"><br><br>
+
+        <input type="submit" value="Сохранить изменения">
+    </form>
+    <p><a href="../index.html">Вернуться к просмотру данных</a></p>
+
+    <script>
+
+    </script>
+</body>
+</html>
