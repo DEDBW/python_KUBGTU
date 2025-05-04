@@ -1,0 +1,62 @@
+{# store/templates/store/register.html #}
+{% extends 'store/base.html' %} {# **Расширяем базовый шаблон** #}
+
+{% block title %}Регистрация - Онлайн магазин видеоигр{% endblock %} {# Переопределяем блок заголовка #}
+
+{% block content %} {# **Начало блока основного содержимого** #}
+    <div class="row justify-content-center"> {# Центрируем форму #}
+        <div class="col-md-6">
+            <div class="card bg-secondary text-light mt-4"> {# Карточка формы #}
+                <div class="card-header">
+                    <h2>Регистрация нового пользователя</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %} {# Обязательный тег для защиты от CSRF-атак #}
+
+                        {# Отображаем ошибки формы, если есть #}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Пожалуйста, исправьте следующие ошибки:</strong>
+                                <ul>
+                                    {% for field in form %}
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <li>{{ field.label }}: {{ error }}</li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        {# Отображаем поля формы вручную для применения стилей Bootstrap #}
+                        {% for field in form %}
+                            <div class="mb-3"> {# Отступ снизу для каждого поля #}
+                                {{ field.label_tag }} {# Лейбл поля #}
+                                {{ field }} {# Само поле ввода #}
+                                {% if field.help_text %}
+                                    <div class="form-text text-muted">{{ field.help_text|safe }}</div> {# Текст подсказки #}
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback d-block"> {# Ошибки для конкретного поля #}
+                                        {% for error in field.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button> {# Кнопка отправки #}
+                    </form>
+                    <p class="mt-3 text-center">Уже зарегистрированы? <a href="{% url 'login' %}" class="text-info">Войти</a></p> {# Ссылка для входа #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} {# **Конец блока основного содержимого** #}

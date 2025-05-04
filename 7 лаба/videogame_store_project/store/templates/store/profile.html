@@ -1,0 +1,37 @@
+{# store/templates/store/profile.html #}
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Профиль пользователя - Онлайн магазин видеоигр{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-secondary text-light mt-4">
+                <div class="card-header">
+                    <h2>Профиль пользователя: {{ user.username }}</h2> {# Отображаем имя пользователя #}
+                </div>
+                <div class="card-body">
+                    {# **Информация о пользователе** #}
+                    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                    {% if user.email %} {# Отображаем email, если он есть #}
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                    {% endif %}
+                    {# Здесь можно добавить другую информацию, если она есть в модели User или связанной модели #}
+                    {# Пример для полей из вашей модели Polzovatel, если вы ее свяжете с User #}
+                    {# <p><strong>Имя (из Polzovatel):</strong> {{ user.polzovatel.imya }}</p> #}
+                    {# <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"Y-m-d" }}</p> #}
+
+                    {# **Кнопка "Выйти"** #}
+                    <div class="mt-4">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Выйти из аккаунта</button> {# Кнопка выхода, используем btn-danger для красной кнопки #}
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

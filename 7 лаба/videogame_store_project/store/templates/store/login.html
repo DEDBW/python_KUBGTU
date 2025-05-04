@@ -1,0 +1,80 @@
+{# store/templates/store/login.html #}
+{% extends 'store/base.html' %} {# Расширяем базовый шаблон #}
+{% load static %} {# Не обязательно, если уже в base.html, но не повредит #}
+
+{% block title %}Вход - Онлайн магазин видеоигр{% endblock %} {# Переопределяем блок заголовка #}
+
+{% block content %} {# Начало блока основного содержимого #}
+    <div class="row justify-content-center"> {# Центрируем форму #}
+        <div class="col-md-6">
+            <div class="card bg-secondary text-light mt-4"> {# Карточка формы #}
+                <div class="card-header">
+                    <h2>Вход в аккаунт</h2>
+                </div>
+                <div class="card-body">
+                    {# Отображаем сообщения об ошибках (например, неверный логин/пароль) #}
+                    {# Django LoginView автоматически добавляет ошибки формы в контекст #}
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            Ваш логин и пароль не совпадают. Пожалуйста, попробуйте еще раз.
+                        </div>
+                    {% endif %}
+
+                    {# Отображаем другие сообщения (например, после выхода) #}
+                    {# Django добавляет сообщения в request.GET, если указан next_page в LogoutView #}
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                            <div class="alert alert-warning">
+                                У вас нет доступа к этой странице. Пожалуйста, войдите.
+                            </div>
+                        {% else %}
+                            {# Сообщения, если пользователь вышел, перенаправлен на страницу входа #}
+                        {% endif %}
+                    {% endif %}
+
+
+                    <form method="post" action="{% url 'login' %}"> {# Указываем URL действия формы #}
+                        {% csrf_token %} {# Обязательный тег для защиты от CSRF-атак #}
+
+                        {# Отображаем поля формы входа вручную для применения стилей Bootstrap #}
+                        {# Форма входа обычно имеет поля username и password #}
+                        <div class="mb-3">
+                            {{ form.username.label_tag }} {# Лейбл для поля username #}
+                            {{ form.username }} {# Поле ввода username #}
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.password.label_tag }} {# Лейбл для поля password #}
+                            {{ form.password }} {# Поле ввода password #}
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {# Добавляем скрытое поле для перенаправления после входа (если нужно) #}
+                        {# По умолчанию LoginView использует next_page, но это поле может быть полезно #}
+                        {% if next %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary">Войти</button> {# Кнопка отправки #}
+                    </form>
+
+                    <p class="mt-3 text-center">Еще нет аккаунта? <a href="{% url 'register' %}" class="text-info">Зарегистрироваться</a></p> {# Ссылка на регистрацию #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} {# Конец блока content #}

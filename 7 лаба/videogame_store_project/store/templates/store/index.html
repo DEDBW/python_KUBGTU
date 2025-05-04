@@ -1,0 +1,46 @@
+{# store/templates/store/index.html #}
+{% extends 'store/base.html' %}
+{% load static %} {# Убедитесь, что этот тег есть в base.html или здесь, если не extends #}
+
+{% block title %}Главная - Онлайн магазин видеоигр{% endblock %}
+
+{% block content %}
+    <h1>Добро пожаловать в онлайн магазин видеоигр!</h1>
+
+    <h2>Каталог игр:</h2>
+    <div class="row">
+
+        {% for game in games %}
+            <div class="col-md-4 mb-4">
+                <div class="card bg-secondary text-light h-100">
+                    {# **Отображение обложки игры** #}
+                    {% if game.oblozhka %}
+                        <img src="{{ game.oblozhka.url }}" class="card-img-top" alt="{{ game.nazvanie }}">
+                    {% else %}
+                        {# Временный заполнитель, если обложки нет #}
+                        <img src="{% static 'img/placeholder.jpg' %}" class="card-img-top" alt="Обложка игры" style="height: 200px; object-fit: cover;">
+                    {% endif %} {# Конец блока if для обложки #}
+
+
+                    <div class="card-body d-flex flex-column">
+                        {# **Название игры** #}
+                        <h5 class="card-title">{{ game.nazvanie }}</h5>
+
+                        {# **Краткая информация** #}
+                        <p class="card-text">
+                            {% if game.tsena is not None %}Цена: € {{ game.tsena }}<br>{% endif %}
+                            {% if game.nomer_zhanra %}Жанр: {{ game.nomer_zhanra.nazvanie }}<br>{% endif %}
+                            {% if game.nomer_razrabotchika %}Разработчик: {{ game.nomer_razrabotchika.nazvanie_kompanii }}<br>{% endif %}
+                            {% if game.data_vyhoda %}Дата выхода: {{ game.data_vyhoda|date:"Y-m-d" }}<br>{% endif %}
+                        </p>
+
+                        {# **Ссылка на детальную страницу игры** #}
+                        <a href="{% url 'game_detail' pk=game.nomer_igry %}" class="btn btn-primary mt-auto">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %} {# Конец цикла for #}
+
+    </div> {# Конец div class="row" #}
+
+{% endblock %} {# Конец блока content #}

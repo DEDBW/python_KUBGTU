@@ -1,0 +1,72 @@
+{# store/templates/store/game_detail.html #}
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ game.nazvanie }} - Онлайн магазин видеоигр{% endblock %} {# Заголовок страницы - название игры #}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 offset-md-2"> {# Центрируем контент игры #}
+            <div class="card bg-secondary text-light mt-4">
+                {# **Обложка игры (если есть)** #}
+                {# Предположим, у вас есть поле для обложки 'oblozhka' в модели Igra #}
+                {% if game.oblozhka %}
+                    <img src="{{ game.oblozhka.url }}" class="card-img-top" alt="{{ game.nazvanie }}">
+                {% else %}
+                    {# Временный заполнитель #}
+                    <img src="{% static 'img/placeholder.jpg' %}" class="card-img-top" alt="Обложка игры" style="height: 300px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body">
+                    {# **Название игры** #}
+                    <h1 class="card-title">{{ game.nazvanie }}</h1>
+
+                    {# **Основная информация об игре** #}
+                    <p class="card-text">
+                        {% if game.tsena is not None %}<strong>Цена:</strong> {{ game.tsena }} руб.<br>{% endif %}
+                        {% if game.nomer_zhanra %}<strong>Жанр:</strong> {{ game.nomer_zhanra.nazvanie }}<br>{% endif %}
+                        {% if game.nomer_izdatelya %}<strong>Издатель:</strong> {{ game.nomer_izdatelya.nazvanie_kompanii }}<br>{% endif %}
+                        {% if game.nomer_razrabotchika %}<strong>Разработчик:</strong> {{ game.nomer_razrabotchika.nazvanie_kompanii }}<br>{% endif %}
+                        {% if game.data_vyhoda %}<strong>Дата выхода:</strong> {{ game.data_vyhoda|date:"Y-m-d" }}<br>{% endif %}
+                        {% if game.vozrastnoy_reyting %}<strong>Возрастной рейтинг:</strong> {{ game.vozrastnoy_reyting }}<br>{% endif %}
+                        {% if game.razmer_igry %}<strong>Размер игры:</strong> {{ game.razmer_igry }}<br>{% endif %}
+                    </p>
+
+                    {# **Дополнительная информация (платформы, языки, обновления)** #}
+                    {# Если ManyToManyField и обратные отношения настроены в models.py #}
+                    {% if game.platformy.all %}
+                        <p class="card-text">
+                            <strong>Платформы:</strong>
+                            {% for platforma in game.platformy.all %}
+                                {{ platforma.nazvanie }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {% if game.yazyki.all %}
+                         <p class="card-text">
+                            <strong>Языки:</strong>
+                            {% for yazyk in game.yazyki.all %}
+                                {{ yazyk.nazvanie }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {# Отображение обновлений (если обратное отношение работает, например, game.obnovlenieigry_set.all) #}
+                    {% if game.obnovlenieigry_set.all %}
+                        <p class="card-text">
+                            <strong>Обновления:</strong><br>
+                            {% for update in game.obnovlenieigry_set.all %}
+                                Версия {{ update.nomer_versii }} ({{ update.data_obnovleniya|date:"Y-m-d" }}) - {{ update.razmer_obnovleniya }}{% if not forloop.last %}<br>{% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {# **Кнопка "Назад"** #}
+                    <a href="{% url 'index' %}" class="btn btn-secondary mt-3">Назад к списку</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
